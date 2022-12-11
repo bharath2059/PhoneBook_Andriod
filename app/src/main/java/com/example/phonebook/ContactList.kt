@@ -27,6 +27,35 @@ class ContactList :Fragment(){
         val view = binding.root
 
 
+        val application = requireNotNull(this.activity).application
+        val dao = ContactDataBase.getInstance(application).contactDao
+        val viewModelFactory = ContactListViewModelFactory(dao)
+        val viewModel = ViewModelProvider(this, viewModelFactory).get(ContactListViewModel::class.java)
+        print(viewModel.contactList)
+        val adapter = ListItemAdapter{ contactId ->
+            viewModel.navigateToView(contactId)
+        }
+        binding.contactList.adapter = adapter
+         Log.i("list",  (viewModel.contactList.toString()))
+        viewModel.contactList.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                adapter.submitList(it)
+            }
+
+        })
+
+        viewModel.whichContact.observe(viewLifecycleOwner,  Observer{ contactId ->
+            contactId?.let{
+                val action = ContactListDirections.actionContactListToContactView(contactId)
+                view.findNavController().navigate(action)
+                viewModel.onNavigateToView()
+            }
+        })
+
+        binding.addButton.setOnClickListener(){
+            val action = ContactListDirections.actionContactListToContactAdd()
+            view.findNavController().navigate(action)
+        }
         return view
     }
 
