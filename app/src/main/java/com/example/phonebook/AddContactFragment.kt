@@ -21,6 +21,13 @@ class AddContactFragment : Fragment(){
         _binding = FragmentAddContactBinding.inflate(inflater, container, false);
         val view = binding.root;
 
+        val application = requireNotNull(this.activity).application
+        val dao = ContactDataBase.getInstance(application).contactDao
+        val viewModelFactory = AddContactViewModelFactory(dao)
+        val viewModel = ViewModelProvider(this, viewModelFactory).get(AddContactViewModel::class.java)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
         binding.SaveButton.setOnClickListener(){
                 viewModel.addContact()
                 val action = AddContactFragmentDirections.actionContactAddToContactList()
