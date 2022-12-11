@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".AddContactFragment">
+
+    <data>
+      <variable
+          name="viewModel"
+          type="com.example.phonebook.AddContactViewModel" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+        <EditText
+            android:id="@+id/phone"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20sp"
+            android:hint="Enter your phone Number"
+            android:inputType="text"
+            android:maxLength="10"
+            android:textSize="16sp"
+            android:text="@={viewModel.newPhoneNum}"/>
+
+        <EditText
+            android:id="@+id/Name"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20sp"
+            android:hint="Name of an contact"
+            android:inputType="text"
+            android:textSize="16sp"
+            android:text="@={viewModel.newName}"
+            />
+
+        <EditText
+            android:id="@+id/Email"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20sp"
+            android:hint="Email id(if available)"
+            android:inputType="text"
+            android:textSize="16sp"
+            android:text="@={viewModel.newEmail}"/>
+
+        <Button
+            android:id="@+id/SaveButton"
+            style="@style/Widget.AppCompat.Button"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:layout_margin="20sp"
+            android:backgroundTint="#43A047"
+            android:text="Save"
+            />
+    </LinearLayout>
+
+</layout>
