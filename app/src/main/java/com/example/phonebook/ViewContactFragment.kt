@@ -21,6 +21,25 @@ class ViewContactFragment : Fragment() {
     ): View? {
         _binding = FragmentViewContactBinding.inflate(inflater, container, false);
         val view = binding.root;
+        val contactId = ViewContactFragmentArgs.fromBundle(requireArguments()).contactId
+
+        val application = requireNotNull(this.activity).application
+        val dao = ContactDataBase.getInstance(application).contactDao
+        val viewModelFactory = ViewContactViewModelFactory(contactId, dao)
+        val viewModel = ViewModelProvider(this, viewModelFactory).get(ViewContactViewModel::class.java)
+        binding.viewmodel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+        viewModel.navigate.observe(viewLifecycleOwner, Observer { navigate ->
+            if (navigate){
+                val action = ViewContactFragmentDirections.actionContactViewToContactList()
+                view.findNavController().navigate(action)
+                viewModel.onNavigateToView()
+            }
+        })
+        binding.EditButton.setOnClickListener(){
+            val action = ViewContactFragmentDirections.actionContactViewToEditContact(contactId)
+            view.findNavController().navigate(action)
+        }
 
         return view
     }
